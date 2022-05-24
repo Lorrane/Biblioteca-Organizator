@@ -58,7 +58,7 @@ const Drawer = styled(MuiDrawer, {
     },
 }));
 
-function MenuAdminContent() {
+function MenuAdminContent(titulo) {
     const [open, setOpen] = useState(true);
     const toggleDrawer = () => {
         setOpen(!open);
@@ -92,7 +92,7 @@ function MenuAdminContent() {
                         noWrap
                         sx={{ flexGrow: 1 }}
                     >
-                        Dashboard
+                        {`${titulo.titulo.titulo}`}
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -120,6 +120,6 @@ function MenuAdminContent() {
     );
 }
 
-export default function MenuAdmin() {
-    return <MenuAdminContent />;
+export default function MenuAdmin(titulo) {
+    return <MenuAdminContent titulo={titulo} />;
 }

@@ -219,7 +219,6 @@ const EnhancedTableToolbar = (props) => {
 
 EnhancedTableToolbar.propTypes = {
     numSelected: PropTypes.number.isRequired,
-    tableName: PropTypes.string.isRequired,
 };
 
 export default function EnhancedTable(tableName) {
