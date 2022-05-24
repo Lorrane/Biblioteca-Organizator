@@ -226,7 +226,7 @@ export default function EnhancedTable(tableName) {
     const [orderBy, setOrderBy] = React.useState('calories');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(false);
+    const [dense, setDense] = React.useState(true);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
     const handleRequestSort = (event, property) => {
@@ -291,7 +291,7 @@ export default function EnhancedTable(tableName) {
                     <Table
                         sx={{ minWidth: 750 }}
                         aria-labelledby="tableTitle"
-                        size={dense ? 'small' : 'medium'}
+                        size={dense ? 'medium' : 'small'}
                     >
                         <EnhancedTableHead
                             numSelected={selected.length}
@@ -347,7 +347,7 @@ export default function EnhancedTable(tableName) {
                             {emptyRows > 0 && (
                                 <TableRow
                                     style={{
-                                        height: (dense ? 33 : 53) * emptyRows,
+                                        height: (dense ? 53 : 33) * emptyRows,
                                     }}
                                 >
                                     <TableCell colSpan={6} />
@@ -368,7 +368,7 @@ export default function EnhancedTable(tableName) {
             </Paper>
             <FormControlLabel
                 control={<Switch checked={dense} onChange={handleChangeDense} />}
-                label="Dense padding"
+                label="Fortalecer Espaçamento"
             />
         </Box>
     );
