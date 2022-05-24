@@ -23,7 +23,7 @@ export default function Home() {
         <ThemeProvider theme={mdTheme}>
             <Box sx={{ display: 'flex' }}>
 
-                <MenuAdmin />
+                <MenuAdmin titulo='Página Inicial' />
 
                 <Box
                     component="main"
@@ -41,10 +41,8 @@ export default function Home() {
 
                     <Container maxWidth="false" >
                         <Container maxWidth="false" sx={{ p: 6 }} >
-                            <Button onClick={() => navigate('/livro/cadastrar')} variant="outlined">Cadastrar Livros</Button>
-                            <Container maxWidth="false" sx={{ p: 1 }} >
-                                <EnhancedTable tableName='Lista de Livros' />
-                            </Container>
+                            <Button sx={{ m: 2 }} onClick={() => navigate('/livros/cadastrar')} variant="contained" size='large' >Cadastrar Livros</Button>
+                            <EnhancedTable tableName='Lista de Livros' />
                             <Rodape sx={{ pt: 4 }} />
                         </Container>
                     </Container>
