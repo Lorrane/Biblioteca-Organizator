@@ -21,6 +21,7 @@ export default function Home() {
             <Box sx={{ display: 'flex' }}>
 
                 <MenuAdmin />
+
                 <Box
                     component="main"
                     sx={{
@@ -34,23 +35,15 @@ export default function Home() {
                     }}
                 >
                     <Toolbar />
-                    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
 
-                        {/* Recent Deposits */}
-                        <Grid item xs={12} md={4} lg={3}>
-                            {/* <Paper
-                                sx={{
-                                    p: 2,
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    height: 240,
-                                }}
-                            > */}
-                            <EnhancedTable />
-                            {/* </Paper> */}
-                        </Grid>
-
-                        <Rodape sx={{ pt: 4 }} />
+                    <Container maxWidth="false" >
+                        <Container maxWidth="false" sx={{ p: 6 }} >
+                            onde ficará o botão de cadastro
+                            <Container maxWidth="false" >
+                            </Container>
+                            <EnhancedTable tableName='Lista de Livros' />
+                            <Rodape sx={{ pt: 4 }} />
+                        </Container>
                     </Container>
                 </Box>
             </Box>
