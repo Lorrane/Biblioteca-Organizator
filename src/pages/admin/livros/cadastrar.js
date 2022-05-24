@@ -113,7 +113,7 @@ export default function CadastroLivro() {
                                 <Button
                                     startIcon={<Cancel />}
                                     color='error'
-                                    variant="outlined"
+                                    variant="contained"
                                     sx={{ m: 2 }}
                                     size='large'
                                 >
@@ -121,7 +121,7 @@ export default function CadastroLivro() {
                                 </Button>
                                 <Button
                                     startIcon={<Save />}
-                                    variant="outlined"
+                                    variant="contained"
                                     sx={{ m: 2 }}
                                     size='large'
                                 >
