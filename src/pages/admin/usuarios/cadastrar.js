@@ -6,16 +6,19 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Rodape from '../../../components/rodape';
-import { TextField } from '@mui/material';
+import { Button, FormControl, InputLabel, Select, TextField } from '@mui/material';
+import { Cancel, Save } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const mdTheme = createTheme();
 
 export default function CadastroUsuario() {
+
+    const navigate = useNavigate();
 
     return (
         <ThemeProvider theme={mdTheme}>
@@ -37,25 +40,57 @@ export default function CadastroUsuario() {
                     <Toolbar />
                     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
 
-                        {/* Recent Deposits */}
-                        <Grid item xs={12} md={4} lg={3}>
-                            <Paper
-                                sx={{
-                                    p: 2,
-                                    display: 'flex',
-                                    flexDirection: 'inline-block',
-                                    height: 240,
-                                }}
-                            >
-                                <Grid item xs={4}>
-                                    <TextField id="outlined-basic" label="Login" variant="outlined" />
-                                </Grid>
-                                <Grid item xs={8}>
-                                    <TextField id="outlined-basic" label="Nome Completo do usuário" variant="outlined" />
-                                </Grid>
-                                <TextField id="outlined-basic" label="Senha" variant="outlined" />
-                            </Paper>
-                        </Grid>
+                        <Paper>
+                            <FormControl fullWidth sx={{ p: 2 }}>
+                                <TextField id="name" label="Nome Completo" variant="standard" />
+                            </FormControl>
+                            <FormControl fullWidth sx={{ p: 2 }}>
+                                <TextField id="user" label="Usuário" variant="standard" />
+                            </FormControl>
+                            <FormControl fullWidth sx={{ p: 2 }}>
+                                <TextField type='password' id="password" label="Senha" variant="standard" />
+                            </FormControl>
+                            {/* <FormControl fullWidth sx={{ p: 2 }}>
+                                <InputLabel id='genrer-label'>Categorias</InputLabel>
+                                <Select
+                                    labelId='genrer-label'
+                                    id="genrer"
+                                    multiple
+                                    value={selectGenrer}
+                                    onChange={handleSelectChange}
+                                    MenuProps={MenuProps}
+                                    variant="standard"
+                                    renderValue={selected => selected.join(', ')}
+                                >
+                                    {names.map((name) => (
+                                        <MenuItem key={name} value={name}>
+                                            <Checkbox checked={selectGenrer.indexOf(name) > -1} />
+                                            <ListItemText primary={name} />
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl> */}
+                            <Container align='right'>
+                                <Button
+                                    startIcon={<Cancel />}
+                                    color='error'
+                                    variant="contained"
+                                    sx={{ m: 2 }}
+                                    size='large'
+                                    onClick={() => navigate('/usuarios')}
+                                >
+                                    Cancelar
+                                </Button>
+                                <Button
+                                    startIcon={<Save />}
+                                    variant="contained"
+                                    sx={{ m: 2 }}
+                                    size='large'
+                                >
+                                    Salvar
+                                </Button>
+                            </Container>
+                        </Paper>
 
                         <Rodape sx={{ pt: 4 }} />
                     </Container>
