@@ -23,8 +23,9 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 
 
-function createData(title, subtitle, author, publishing, genrer) {
+function createData(isbn, title, subtitle, author, publishing, genrer) {
     return {
+        isbn,
         title,
         subtitle,
         author,
@@ -34,16 +35,16 @@ function createData(title, subtitle, author, publishing, genrer) {
 }
 
 const rows = [
-    createData('Harry Potter', 'e a Pedra Filosofal', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
-    createData('Harry Potter', 'e a Pedra Filosofal', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
-    createData('Harry Potter', 'e a Pedra Filosofal', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
-    createData('Harry Potter', 'e a Pedra Filosofal', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
-    createData('Harry Potter', 'e a Pedra Filosofal', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
-    createData('Harry Potter', 'e a Pedra Filosofal', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
-    createData('Harry Potter', 'e a Pedra Filosofal', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
-    createData('Harry Potter', 'e a Pedra Filosofal', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
-    createData('Harry Potter', 'e a Pedra Filosofal', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
-    createData('Harry Potter', 'e a Pedra Filosofal', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
+    createData(123, 'Harry Potter', 'e a Pedra Filosofal', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
+    createData(321, 'Harry Potter', 'e a Câmara Secreta', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
+    createData(258, 'Harry Potter', 'e o Prisioneiro de Askaban', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
+    createData(852, 'Senhor dos Aneis', 'A Sociedade do Anel', 'TOLKIEN, J.R.R.', 'Allen & Unwin', 'Fantasia, Aventura, Ação'),
+    createData(456, 'Senhor dos Aneis', 'As Duas Torres', 'TOLKIEN, J.R.R.', 'Allen & Unwin', 'Fantasia, Aventura, Ação'),
+    createData(654, 'O Hobbit', '', 'TOLKIEN, J.R.R.', 'Allen & Unwin', 'Fantasia, Aventura, Ação'),
+    createData(789, 'A sutil Arte de ligar o F*da-se', 'Uma estratégia Inusitada de uma vida melhor', 'MANSON, Mark', 'Intrinsica', 'Auto-Ajuda'),
+    createData(987, 'O Cortiço', '', 'AZEVEDO, Aluísio', 'FTD Educação', 'Didático'),
+    createData(951, 'Memórias Postumas de Brás Cubas', '', 'ASSIS, Machado de', 'Principis', 'Ficção'),
+    createData(753, 'Dom Casmurro', '', 'ASSIS, Machado de', 'Principis', 'Fantasia, Aventura, Ação'),
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -77,6 +78,12 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
+    {
+        id: 'isbn',
+        numeric: true,
+        disablePadding: false,
+        label: 'ISBN',
+    },
     {
         id: 'title',
         numeric: false,
@@ -127,14 +134,14 @@ function EnhancedTableHead(props) {
                         checked={rowCount > 0 && numSelected === rowCount}
                         onChange={onSelectAllClick}
                         inputProps={{
-                            'aria-label': 'select all desserts',
+                            'aria-label': 'Selecione todos os Livros',
                         }}
                     />
                 </TableCell>
                 {headCells.map((headCell) => (
                     <TableCell
                         key={headCell.id}
-                        align={headCell.numeric ? 'right' : 'center'}
+                        align={headCell.numeric ? 'left' : 'center'}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell.id ? order : false}
                     >
@@ -187,7 +194,7 @@ const EnhancedTableToolbar = (props) => {
                     variant="subtitle1"
                     component="div"
                 >
-                    {numSelected} selected
+                    {numSelected} selecionado(s)
                 </Typography>
             ) : (
                 <Typography
@@ -223,7 +230,7 @@ EnhancedTableToolbar.propTypes = {
 
 export default function EnhancedTable(tableName) {
     const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('calories');
+    const [orderBy, setOrderBy] = React.useState('title');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(true);
@@ -237,19 +244,19 @@ export default function EnhancedTable(tableName) {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelecteds = rows.map((n) => n.name);
+            const newSelecteds = rows.map((n) => n.isbn);
             setSelected(newSelecteds);
             return;
         }
         setSelected([]);
     };
 
-    const handleClick = (event, name) => {
-        const selectedIndex = selected.indexOf(name);
+    const handleClick = (event, isbn) => {
+        const selectedIndex = selected.indexOf(isbn);
         let newSelected = [];
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
+            newSelected = newSelected.concat(selected, isbn);
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1));
         } else if (selectedIndex === selected.length - 1) {
@@ -277,7 +284,7 @@ export default function EnhancedTable(tableName) {
         setDense(event.target.checked);
     };
 
-    const isSelected = (name) => selected.indexOf(name) !== -1;
+    const isSelected = (isbn) => selected.indexOf(isbn) !== -1;
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
@@ -307,17 +314,17 @@ export default function EnhancedTable(tableName) {
                             {stableSort(rows, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
-                                    const isItemSelected = isSelected(row.name);
+                                    const isItemSelected = isSelected(row.isbn);
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={(event) => handleClick(event, row.name)}
+                                            onClick={(event) => handleClick(event, row.isbn)}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
-                                            key={row.name}
+                                            key={row.isbn}
                                             selected={isItemSelected}
                                         >
                                             <TableCell padding="checkbox">
@@ -335,8 +342,9 @@ export default function EnhancedTable(tableName) {
                                                 scope="row"
                                                 padding="none"
                                             >
-                                                {row.title}
+                                                {row.isbn}
                                             </TableCell>
+                                            <TableCell align="left">{row.title}</TableCell>
                                             <TableCell align="left">{row.subtitle}</TableCell>
                                             <TableCell align="center">{row.author}</TableCell>
                                             <TableCell align="center">{row.publishing}</TableCell>

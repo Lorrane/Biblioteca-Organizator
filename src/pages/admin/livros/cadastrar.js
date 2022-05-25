@@ -7,12 +7,11 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Rodape from '../../../components/rodape';
-import { Button, Checkbox, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Button, Checkbox, FormControl, InputLabel, ListItemText, MenuItem, Select, TextField } from '@mui/material';
 import { Cancel, Save } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -21,7 +20,7 @@ const mdTheme = createTheme();
 export default function CadastroLivro() {
 
     const [selectGenrer, setSelectGenrer] = React.useState([]);
-    const { navigate } = useNavigate();
+    const navigate = useNavigate();
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -116,6 +115,7 @@ export default function CadastroLivro() {
                                     variant="contained"
                                     sx={{ m: 2 }}
                                     size='large'
+                                    onClick={() => navigate('/livros')}
                                 >
                                     Cancelar
                                 </Button>

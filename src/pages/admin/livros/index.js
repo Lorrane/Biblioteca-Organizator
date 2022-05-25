@@ -6,9 +6,10 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 import Rodape from '../../../components/rodape';
+import { Button } from '@mui/material';
+import EnhancedTable from '../../../components/enhancedTable';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -16,11 +17,14 @@ const mdTheme = createTheme();
 
 export default function ListaLivro() {
 
+    const navigate = useNavigate();
+
     return (
         <ThemeProvider theme={mdTheme}>
             <Box sx={{ display: 'flex' }}>
 
-                <MenuAdmin />
+                <MenuAdmin titulo='Listagem de Livros' />
+
                 <Box
                     component="main"
                     sx={{
@@ -34,22 +38,20 @@ export default function ListaLivro() {
                     }}
                 >
                     <Toolbar />
-                    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
 
-                        {/* Recent Deposits */}
-                        <Grid item xs={12} md={4} lg={3}>
-                            <Paper
-                                sx={{
-                                    p: 2,
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    height: 240,
-                                }}
+                    <Container maxWidth="false" >
+                        <Container maxWidth="false" sx={{ p: 6 }} >
+                            <Button
+                                sx={{ m: 2 }}
+                                onClick={() => navigate('/livros/cadastrar')}
+                                variant="contained"
+                                size='large'
                             >
-                            </Paper>
-                        </Grid>
-
-                        <Rodape sx={{ pt: 4 }} />
+                                Cadastrar Livros
+                            </Button>
+                            <EnhancedTable tableName='Lista de Livros' />
+                            <Rodape sx={{ pt: 4 }} />
+                        </Container>
                     </Container>
                 </Box>
             </Box>
