@@ -7,9 +7,9 @@ import Toolbar from '@mui/material/Toolbar';
 
 import Container from '@mui/material/Container';
 import Rodape from '../../../components/rodape';
-import EnhancedTable from '../../../components/enhancedTable';
-import { Button } from '@mui/material';
+import { Card, CardActionArea, CardContent, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { AddCircle, MenuBook, Person } from '@mui/icons-material';
 
 
 
@@ -40,11 +40,112 @@ export default function Home() {
                     <Toolbar />
 
                     <Container maxWidth="false" >
-                        <Container maxWidth="false" sx={{ p: 6 }} >
-                            <Button sx={{ m: 2 }} onClick={() => navigate('/livros/cadastrar')} variant="contained" size='large' >Cadastrar Livros</Button>
-                            <EnhancedTable tableName='Lista de Livros' />
-                            <Rodape sx={{ pt: 4 }} />
+                        <Container maxWidth="false"
+                            sx={{
+                                p: 6,
+                                display: 'flex',
+                                flexDirection: 'inline-block'
+                            }} >
+                            <Card sx={{ maxWidth: 345, m: 4 }} onClick={() => navigate('/usuarios/cadastrar')} >
+                                <CardActionArea>
+                                    <CardContent>
+                                        <AddCircle color='primary' sx={{ fontSize: 140 }} />
+                                        <Person color='primary' sx={{ fontSize: 140 }} />
+                                        <Typography gutterBottom variant="h5" component="div">
+                                            Cadastro de Usuários
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Clique aqui para ser direcionado ao formulário em que será possível realizar o
+                                            cadastro de um novo Usuário no sistema.
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                            <Card sx={{ maxWidth: 345, m: 4 }} onClick={() => navigate('/usuarios/cadastrar')} >
+                                <CardActionArea>
+                                    <CardContent>
+                                        <AddCircle color='primary' sx={{ fontSize: 140 }} />
+                                        <Person color='primary' sx={{ fontSize: 140 }} />
+                                        <Typography gutterBottom variant="h5" component="div">
+                                            Cadastro de Usuários
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Clique aqui para ser direcionado ao formulário em que será possível realizar o
+                                            cadastro de um novo Usuário no sistema.
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                            <Card sx={{ maxWidth: 345, m: 4 }} onClick={() => navigate('/usuarios/cadastrar')} >
+                                <CardActionArea>
+                                    <CardContent>
+                                        <AddCircle color='primary' sx={{ fontSize: 140 }} />
+                                        <Person color='primary' sx={{ fontSize: 140 }} />
+                                        <Typography gutterBottom variant="h5" component="div">
+                                            Cadastro de Usuários
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Clique aqui para ser direcionado ao formulário em que será possível realizar o
+                                            cadastro de um novo Usuário no sistema.
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
                         </Container>
+                        <Container maxWidth="false"
+                            sx={{
+                                p: 6,
+                                display: 'flex',
+                                flexDirection: 'inline-block'
+                            }} >
+                            <Card sx={{ maxWidth: 345, m: 4 }} onClick={() => navigate('/livros/cadastrar')} >
+                                <CardActionArea>
+                                    <CardContent>
+                                        <AddCircle color='primary' sx={{ fontSize: 140 }} />
+                                        <MenuBook color='primary' sx={{ fontSize: 140 }} />
+                                        <Typography gutterBottom variant="h5" component="div">
+                                            Cadastro de Livros
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Clique aqui para ser direcionado ao formulário em que será possível realizar o
+                                            cadastro de um novo Usuário no sistema.
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                            <Card sx={{ maxWidth: 345, m: 4 }} onClick={() => navigate('/livros/cadastrar')} >
+                                <CardActionArea>
+                                    <CardContent>
+                                        <AddCircle color='primary' sx={{ fontSize: 140 }} />
+                                        <MenuBook color='primary' sx={{ fontSize: 140 }} />
+                                        <Typography gutterBottom variant="h5" component="div">
+                                            Cadastro de Livros
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Clique aqui para ser direcionado ao formulário em que será possível realizar o
+                                            cadastro de um novo Usuário no sistema.
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                            <Card sx={{ maxWidth: 345, m: 4 }} onClick={() => navigate('/livros/cadastrar')} >
+                                <CardActionArea>
+                                    <CardContent>
+                                        <AddCircle color='primary' sx={{ fontSize: 140 }} />
+                                        <MenuBook color='primary' sx={{ fontSize: 140 }} />
+                                        <Typography gutterBottom variant="h5" component="div">
+                                            Cadastro de Livros
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Clique aqui para ser direcionado ao formulário em que será possível realizar o
+                                            cadastro de um novo Usuário no sistema.
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+
+                        </Container>
+                        <Rodape sx={{ pt: 4 }} />
                     </Container>
                 </Box>
             </Box>
