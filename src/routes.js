@@ -23,7 +23,7 @@ function Rotas() {
             <Routes>
                 {/* Rota do cliente */}
                 <Route path="/" exact element={<Home />} />
-                <Route path="/livro/:idLivro" exact element={<Livro />} />
+                <Route path="/livro/:idLivro" exact element={<EditarLivros />} />
 
                 {/* Rota do Admin */}
                 <Route path="/admin" exact element={<Dashboard />} />
