@@ -47,7 +47,7 @@ export default function ListaLivro() {
                                 variant="contained"
                                 size='large'
                             >
-                                Cadastrar Livros
+                                Cadastrar Livro
                             </Button>
                             <EnhancedTable tableName='Lista de Livros' />
                             <Rodape sx={{ pt: 4 }} />
