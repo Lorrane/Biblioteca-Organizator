@@ -13,7 +13,6 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -21,6 +20,7 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
+import { useNavigate } from 'react-router-dom';
 
 
 function createData(isbn, title, subtitle, author, publishing, genrer) {
@@ -128,7 +128,7 @@ function EnhancedTableHead(props) {
         <TableHead>
             <TableRow>
                 <TableCell padding="checkbox">
-                    <Checkbox
+                    {/* <Checkbox
                         color="primary"
                         indeterminate={numSelected > 0 && numSelected < rowCount}
                         checked={rowCount > 0 && numSelected === rowCount}
@@ -136,7 +136,7 @@ function EnhancedTableHead(props) {
                         inputProps={{
                             'aria-label': 'Selecione todos os Livros',
                         }}
-                    />
+                    /> */}
                 </TableCell>
                 {headCells.map((headCell) => (
                     <TableCell
@@ -251,25 +251,28 @@ export default function EnhancedTable(tableName) {
         setSelected([]);
     };
 
-    const handleClick = (event, isbn) => {
-        const selectedIndex = selected.indexOf(isbn);
-        let newSelected = [];
+    const navigate = useNavigate();
 
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, isbn);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
-        }
+    // const handleClick = (event, isbn) => {
+    // const selectedIndex = selected.indexOf(isbn);
+    // let newSelected = [];
 
-        setSelected(newSelected);
-    };
+    // if (selectedIndex === -1) {
+    //     newSelected = newSelected.concat(selected, isbn);
+    // } else if (selectedIndex === 0) {
+    //     newSelected = newSelected.concat(selected.slice(1));
+    // } else if (selectedIndex === selected.length - 1) {
+    //     newSelected = newSelected.concat(selected.slice(0, -1));
+    // } else if (selectedIndex > 0) {
+    //     newSelected = newSelected.concat(
+    //         selected.slice(0, selectedIndex),
+    //         selected.slice(selectedIndex + 1),
+    //     );
+    // }
+    // navigate(`/livros/cadastrar/${isbn}`)
+
+    // setSelected(newSelected);
+    // };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -320,21 +323,22 @@ export default function EnhancedTable(tableName) {
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={(event) => handleClick(event, row.isbn)}
+                                            // onClick={(event) => handleClick(event, row.isbn)}
+                                            onClick={() => (navigate(`/livro/${row.isbn}`))}
                                             role="checkbox"
-                                            aria-checked={isItemSelected}
+                                            // aria-checked={isItemSelected}
                                             tabIndex={-1}
                                             key={row.isbn}
-                                            selected={isItemSelected}
+                                        // selected={isItemSelected}
                                         >
                                             <TableCell padding="checkbox">
-                                                <Checkbox
+                                                {/* <Checkbox
                                                     color="primary"
                                                     checked={isItemSelected}
                                                     inputProps={{
                                                         'aria-labelledby': labelId,
                                                     }}
-                                                />
+                                                /> */}
                                             </TableCell>
                                             <TableCell
                                                 component="th"
