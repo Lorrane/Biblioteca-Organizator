@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -21,9 +22,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { BASE_URL } from '../../utils/requests';
 
 
-function createData(isbn, title, subtitle, author, publishing, genrer) {
+function createData(isbn, title, subtitle, author, publishing, genrer, yearPubli) {
     return {
         isbn,
         title,
@@ -31,21 +34,24 @@ function createData(isbn, title, subtitle, author, publishing, genrer) {
         author,
         publishing,
         genrer,
+        yearPubli,
     };
 }
 
 const rows = [
-    createData(123, 'Harry Potter', 'e a Pedra Filosofal', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
-    createData(321, 'Harry Potter', 'e a Câmara Secreta', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
-    createData(258, 'Harry Potter', 'e o Prisioneiro de Askaban', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
-    createData(852, 'Senhor dos Aneis', 'A Sociedade do Anel', 'TOLKIEN, J.R.R.', 'Allen & Unwin', 'Fantasia, Aventura, Ação'),
-    createData(456, 'Senhor dos Aneis', 'As Duas Torres', 'TOLKIEN, J.R.R.', 'Allen & Unwin', 'Fantasia, Aventura, Ação'),
-    createData(654, 'O Hobbit', '', 'TOLKIEN, J.R.R.', 'Allen & Unwin', 'Fantasia, Aventura, Ação'),
-    createData(789, 'A sutil Arte de ligar o F*da-se', 'Uma estratégia Inusitada de uma vida melhor', 'MANSON, Mark', 'Intrinsica', 'Auto-Ajuda'),
-    createData(987, 'O Cortiço', '', 'AZEVEDO, Aluísio', 'FTD Educação', 'Didático'),
-    createData(951, 'Memórias Postumas de Brás Cubas', '', 'ASSIS, Machado de', 'Principis', 'Ficção'),
-    createData(753, 'Dom Casmurro', '', 'ASSIS, Machado de', 'Principis', 'Fantasia, Aventura, Ação'),
+    // createData(123, 'Harry Potter', 'e a Pedra Filosofal', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
+    // createData(321, 'Harry Potter', 'e a Câmara Secreta', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
+    // createData(258, 'Harry Potter', 'e o Prisioneiro de Askaban', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
+    // createData(852, 'Senhor dos Aneis', 'A Sociedade do Anel', 'TOLKIEN, J.R.R.', 'Allen & Unwin', 'Fantasia, Aventura, Ação'),
+    // createData(456, 'Senhor dos Aneis', 'As Duas Torres', 'TOLKIEN, J.R.R.', 'Allen & Unwin', 'Fantasia, Aventura, Ação'),
+    // createData(654, 'O Hobbit', '', 'TOLKIEN, J.R.R.', 'Allen & Unwin', 'Fantasia, Aventura, Ação'),
+    // createData(789, 'A sutil Arte de ligar o F*da-se', 'Uma estratégia Inusitada de uma vida melhor', 'MANSON, Mark', 'Intrinsica', 'Auto-Ajuda'),
+    // createData(987, 'O Cortiço', '', 'AZEVEDO, Aluísio', 'FTD Educação', 'Didático'),
+    // createData(951, 'Memórias Postumas de Brás Cubas', '', 'ASSIS, Machado de', 'Principis', 'Ficção'),
+    // createData(753, 'Dom Casmurro', '', 'ASSIS, Machado de', 'Principis', 'Fantasia, Aventura, Ação'),
 ];
+
+// pegar os dados que estão chegando da Api, adicionar um por um no rows usando o createData.
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -235,6 +241,63 @@ export default function EnhancedTable(tableName) {
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(true);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [book, setBook] = useState({
+        isbn: 0,
+        title: "",
+        subtitle: "",
+        author: "",
+        publishing: "",
+        genrers: ""
+    });
+    const [book_genrer, setBook_genrer] = useState({
+        id: 0,
+        book_id: 0,
+        genrer_id: 0
+    });
+    const [genrers, setGenrers] = useState([]);
+
+    function handleGenrers(param) {
+        let genrersString = "";
+
+        param.map(item => (
+            genrersString = genrersString.concat(', ')
+        ));
+
+        return genrersString;
+    }
+
+    useEffect(() => {
+        axios.get(`${BASE_URL}/books`)
+            .then(response => {
+                const data = response.data;
+                console.log(data);
+                data.content.map(book => {
+                    axios.get(`${BASE_URL}/book_genrers/${book.isbn}`)
+                        .then(book_genrers => {
+                            book_genrers.content.map(book_genrer => (
+                                axios.get(`${BASE_URL}/genrer/${book_genrer.genrer_id}`)
+                                    .then(genrerslist => {
+                                        genrerslist.map(genrer => (
+                                            genrers.push(genrer.name)
+                                        ));
+                                        rows.push(
+                                            createData(
+                                                book.isbn,
+                                                book.title,
+                                                book.subtitle,
+                                                book.author,
+                                                book.publishing,
+                                                handleGenrers(genrers),
+                                                book.yearPubli
+                                            )
+                                        )
+                                    })
+                            ))
+
+                        })
+                })
+            });
+    }, []);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -353,6 +416,7 @@ export default function EnhancedTable(tableName) {
                                             <TableCell align="center">{row.author}</TableCell>
                                             <TableCell align="center">{row.publishing}</TableCell>
                                             <TableCell align="center">{row.genrer}</TableCell>
+                                            <TableCell align="center">{row.yearPubli}</TableCell>
                                         </TableRow>
                                     );
                                 })}
