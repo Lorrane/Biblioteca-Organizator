@@ -26,32 +26,31 @@ import axios from 'axios';
 import { BASE_URL } from '../../utils/requests';
 
 
-function createData(isbn, title, subtitle, author, publishing, genrer, yearPubli) {
-    return {
-        isbn,
-        title,
-        subtitle,
-        author,
-        publishing,
-        genrer,
-        yearPubli,
-    };
-}
+// function createData(isbn, title, subtitle, author, publishing, genrer, yearPubli) {
+//     return {
+//         isbn,
+//         title,
+//         subtitle,
+//         author,
+//         publishing,
+//         genrer,
+//         yearPubli,
+//     };
+// }
 
-const rows = [
-    // createData(123, 'Harry Potter', 'e a Pedra Filosofal', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
-    // createData(321, 'Harry Potter', 'e a Câmara Secreta', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
-    // createData(258, 'Harry Potter', 'e o Prisioneiro de Askaban', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
-    // createData(852, 'Senhor dos Aneis', 'A Sociedade do Anel', 'TOLKIEN, J.R.R.', 'Allen & Unwin', 'Fantasia, Aventura, Ação'),
-    // createData(456, 'Senhor dos Aneis', 'As Duas Torres', 'TOLKIEN, J.R.R.', 'Allen & Unwin', 'Fantasia, Aventura, Ação'),
-    // createData(654, 'O Hobbit', '', 'TOLKIEN, J.R.R.', 'Allen & Unwin', 'Fantasia, Aventura, Ação'),
-    // createData(789, 'A sutil Arte de ligar o F*da-se', 'Uma estratégia Inusitada de uma vida melhor', 'MANSON, Mark', 'Intrinsica', 'Auto-Ajuda'),
-    // createData(987, 'O Cortiço', '', 'AZEVEDO, Aluísio', 'FTD Educação', 'Didático'),
-    // createData(951, 'Memórias Postumas de Brás Cubas', '', 'ASSIS, Machado de', 'Principis', 'Ficção'),
-    // createData(753, 'Dom Casmurro', '', 'ASSIS, Machado de', 'Principis', 'Fantasia, Aventura, Ação'),
-];
+// const rows = [
+// createData(123, 'Harry Potter', 'e a Pedra Filosofal', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
+// createData(321, 'Harry Potter', 'e a Câmara Secreta', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
+// createData(258, 'Harry Potter', 'e o Prisioneiro de Askaban', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
+// createData(852, 'Senhor dos Aneis', 'A Sociedade do Anel', 'TOLKIEN, J.R.R.', 'Allen & Unwin', 'Fantasia, Aventura, Ação'),
+// createData(456, 'Senhor dos Aneis', 'As Duas Torres', 'TOLKIEN, J.R.R.', 'Allen & Unwin', 'Fantasia, Aventura, Ação'),
+// createData(654, 'O Hobbit', '', 'TOLKIEN, J.R.R.', 'Allen & Unwin', 'Fantasia, Aventura, Ação'),
+// createData(789, 'A sutil Arte de ligar o F*da-se', 'Uma estratégia Inusitada de uma vida melhor', 'MANSON, Mark', 'Intrinsica', 'Auto-Ajuda'),
+// createData(987, 'O Cortiço', '', 'AZEVEDO, Aluísio', 'FTD Educação', 'Didático'),
+// createData(951, 'Memórias Postumas de Brás Cubas', '', 'ASSIS, Machado de', 'Principis', 'Ficção'),
+// createData(753, 'Dom Casmurro', '', 'ASSIS, Machado de', 'Principis', 'Fantasia, Aventura, Ação'),
+// ];
 
-// pegar os dados que estão chegando da Api, adicionar um por um no rows usando o createData.
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -120,6 +119,12 @@ const headCells = [
         disablePadding: true,
         label: 'Gênero(s)',
     },
+    {
+        id: 'year',
+        numeric: true,
+        disablePadding: true,
+        label: 'Ano de Publicação',
+    },
 
 ];
 
@@ -133,8 +138,8 @@ function EnhancedTableHead(props) {
     return (
         <TableHead>
             <TableRow>
-                <TableCell padding="checkbox">
-                    {/* <Checkbox
+                {/* <TableCell padding="checkbox">
+                     <Checkbox
                         color="primary"
                         indeterminate={numSelected > 0 && numSelected < rowCount}
                         checked={rowCount > 0 && numSelected === rowCount}
@@ -142,8 +147,8 @@ function EnhancedTableHead(props) {
                         inputProps={{
                             'aria-label': 'Selecione todos os Livros',
                         }}
-                    /> */}
-                </TableCell>
+                    /> 
+                </TableCell>*/}
                 {headCells.map((headCell) => (
                     <TableCell
                         key={headCell.id}
@@ -171,131 +176,131 @@ function EnhancedTableHead(props) {
 }
 
 EnhancedTableHead.propTypes = {
-    numSelected: PropTypes.number.isRequired,
+    // numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
+    // onSelectAllClick: PropTypes.func.isRequired,
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
     orderBy: PropTypes.string.isRequired,
     rowCount: PropTypes.number.isRequired,
 };
 
-const EnhancedTableToolbar = (props) => {
-    const { numSelected, tableName } = props;
+// const EnhancedTableToolbar = (props) => {
+//     const { numSelected, tableName } = props;
 
-    return (
-        <Toolbar
-            sx={{
-                pl: { sm: 2 },
-                pr: { xs: 1, sm: 1 },
-                ...(numSelected > 0 && {
-                    bgcolor: (theme) =>
-                        alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-                }),
-            }}
-        >
-            {numSelected > 0 ? (
-                <Typography
-                    sx={{ flex: '1 1 100%' }}
-                    color="inherit"
-                    variant="subtitle1"
-                    component="div"
-                >
-                    {numSelected} selecionado(s)
-                </Typography>
-            ) : (
-                <Typography
-                    sx={{ flex: '1 1 100%' }}
-                    variant="h6"
-                    id="tableTitle"
-                    component="div"
-                >
-                    {`${tableName.tableName}`}
-                </Typography>
-            )}
+//     return (
+//         <Toolbar
+//             sx={{
+//                 pl: { sm: 2 },
+//                 pr: { xs: 1, sm: 1 },
+//                 ...(numSelected > 0 && {
+//                     bgcolor: (theme) =>
+//                         alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+//                 }),
+//             }}
+//         >
+//             {numSelected > 0 ? (
+//                 <Typography
+//                     sx={{ flex: '1 1 100%' }}
+//                     color="inherit"
+//                     variant="subtitle1"
+//                     component="div"
+//                 >
+//                     {numSelected} selecionado(s)
+//                 </Typography>
+//             ) : (
+//                 <Typography
+//                     sx={{ flex: '1 1 100%' }}
+//                     variant="h6"
+//                     id="tableTitle"
+//                     component="div"
+//                 >
+//                     {`${tableName.tableName}`}
+//                 </Typography>
+//             )}
 
-            {numSelected > 0 ? (
-                <Tooltip title="Delete">
-                    <IconButton>
-                        <DeleteIcon />
-                    </IconButton>
-                </Tooltip>
-            ) : (
-                <Tooltip title="Filter list">
-                    <IconButton>
-                        <FilterListIcon />
-                    </IconButton>
-                </Tooltip>
-            )}
-        </Toolbar>
-    );
-};
+//             {numSelected > 0 ? (
+//                 <Tooltip title="Delete">
+//                     <IconButton>
+//                         <DeleteIcon />
+//                     </IconButton>
+//                 </Tooltip>
+//             ) : (
+//                 <Tooltip title="Filter list">
+//                     <IconButton>
+//                         <FilterListIcon />
+//                     </IconButton>
+//                 </Tooltip>
+//             )}
+//         </Toolbar>
+//     );
+// };
 
-EnhancedTableToolbar.propTypes = {
-    numSelected: PropTypes.number.isRequired,
-};
+// EnhancedTableToolbar.propTypes = {
+//     numSelected: PropTypes.number.isRequired,
+// };
 
 export default function EnhancedTable(tableName) {
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('title');
-    const [selected, setSelected] = React.useState([]);
+    // const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(true);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const [book, setBook] = useState({
+    const [book, setBook] = useState([{
         isbn: 0,
         title: "",
         subtitle: "",
         author: "",
         publishing: "",
-        genrers: ""
-    });
-    const [book_genrer, setBook_genrer] = useState({
-        id: 0,
-        book_id: 0,
-        genrer_id: 0
-    });
-    const [genrers, setGenrers] = useState([]);
+        yearPubli: 0
+    }]);
+    // const [book_genrer, setBook_genrer] = useState({
+    //     id: 0,
+    //     book_id: 0,
+    //     genrer_id: 0
+    // });
+    // const [genrers, setGenrers] = useState([]);
 
-    function handleGenrers(param) {
-        let genrersString = "";
+    // function handleGenrers(param) {
+    //     let genrersString = "";
 
-        param.map(item => (
-            genrersString = genrersString.concat(', ')
-        ));
+    //     param.map(item => (
+    //         genrersString = genrersString.concat(', ')
+    //     ));
 
-        return genrersString;
-    }
+    //     return genrersString;
+    // }
 
     useEffect(() => {
-        axios.get(`${BASE_URL}/books`)
+        axios.get(`${BASE_URL}/book`)
             .then(response => {
-                const data = response.data;
-                console.log(data);
-                data.content.map(book => {
-                    axios.get(`${BASE_URL}/book_genrers/${book.isbn}`)
-                        .then(book_genrers => {
-                            book_genrers.content.map(book_genrer => (
-                                axios.get(`${BASE_URL}/genrer/${book_genrer.genrer_id}`)
-                                    .then(genrerslist => {
-                                        genrerslist.map(genrer => (
-                                            genrers.push(genrer.name)
-                                        ));
-                                        rows.push(
-                                            createData(
-                                                book.isbn,
-                                                book.title,
-                                                book.subtitle,
-                                                book.author,
-                                                book.publishing,
-                                                handleGenrers(genrers),
-                                                book.yearPubli
-                                            )
-                                        )
-                                    })
-                            ))
+                setBook(response.data);
+                // data.map(book => (
+                //     rows.push(
+                //         createData(
+                //             book.isbn,
+                //             book.title,
+                //             book.subtitle,
+                //             book.author,
+                //             book.publishing,
+                //             "Ação, Aventura",
+                //             // handleGenrers(genrers),
+                //             book.yearPubli
+                //         )
+                //     )
+                // axios.get(`${BASE_URL}/book_genrers/${book.isbn}`)
+                //     .then(book_genrers => {
+                //         book_genrers.content.map(book_genrer => (
+                //             axios.get(`${BASE_URL}/genrer/${book_genrer.genrer_id}`)
+                //                 .then(genrerslist => {
+                //                     genrerslist.map(genrer => (
+                //                         genrers.push(genrer.name)
+                //                     ));
+                //                 })
+                //         ))
 
-                        })
-                })
+                //     })
+                // ))
             });
     }, []);
 
@@ -305,14 +310,14 @@ export default function EnhancedTable(tableName) {
         setOrderBy(property);
     };
 
-    const handleSelectAllClick = (event) => {
-        if (event.target.checked) {
-            const newSelecteds = rows.map((n) => n.isbn);
-            setSelected(newSelecteds);
-            return;
-        }
-        setSelected([]);
-    };
+    // const handleSelectAllClick = (event) => {
+    //     if (event.target.checked) {
+    //         const newSelecteds = rows.map((n) => n.isbn);
+    //         setSelected(newSelecteds);
+    //         return;
+    //     }
+    //     setSelected([]);
+    // };
 
     const navigate = useNavigate();
 
@@ -350,16 +355,16 @@ export default function EnhancedTable(tableName) {
         setDense(event.target.checked);
     };
 
-    const isSelected = (isbn) => selected.indexOf(isbn) !== -1;
+    // const isSelected = (isbn) => selected.indexOf(isbn) !== -1;
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - book.length) : 0;
 
     return (
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-                <EnhancedTableToolbar numSelected={selected.length} tableName={tableName} />
+                {/* <EnhancedTableToolbar numSelected={selected.length} tableName={tableName} /> */}
                 <TableContainer>
                     <Table
                         sx={{ minWidth: 750 }}
@@ -367,22 +372,21 @@ export default function EnhancedTable(tableName) {
                         size={dense ? 'medium' : 'small'}
                     >
                         <EnhancedTableHead
-                            numSelected={selected.length}
+                            // numSelected={selected.length}
                             order={order}
                             orderBy={orderBy}
-                            onSelectAllClick={handleSelectAllClick}
+                            // onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
-                            rowCount={rows.length}
+                            rowCount={book.length}
                         />
                         <TableBody>
                             {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-                            {stableSort(rows, getComparator(order, orderBy))
+                            {stableSort(book, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
-                                    const isItemSelected = isSelected(row.isbn);
+                                    // const isItemSelected = isSelected(row.isbn);
                                     const labelId = `enhanced-table-checkbox-${index}`;
-
                                     return (
                                         <TableRow
                                             hover
@@ -394,20 +398,20 @@ export default function EnhancedTable(tableName) {
                                             key={row.isbn}
                                         // selected={isItemSelected}
                                         >
-                                            <TableCell padding="checkbox">
-                                                {/* <Checkbox
+                                            {/*<TableCell padding="checkbox">
+                                                 <Checkbox
                                                     color="primary"
                                                     checked={isItemSelected}
                                                     inputProps={{
                                                         'aria-labelledby': labelId,
                                                     }}
-                                                /> */}
-                                            </TableCell>
+                                                /> 
+                                            </TableCell>*/}
                                             <TableCell
                                                 component="th"
                                                 id={labelId}
                                                 scope="row"
-                                                padding="none"
+                                                padding="checkbox"
                                             >
                                                 {row.isbn}
                                             </TableCell>
@@ -416,7 +420,7 @@ export default function EnhancedTable(tableName) {
                                             <TableCell align="center">{row.author}</TableCell>
                                             <TableCell align="center">{row.publishing}</TableCell>
                                             <TableCell align="center">{row.genrer}</TableCell>
-                                            <TableCell align="center">{row.yearPubli}</TableCell>
+                                            <TableCell align="center" padding='checkbox'>{row.yearPubli}</TableCell>
                                         </TableRow>
                                     );
                                 })}
@@ -435,7 +439,7 @@ export default function EnhancedTable(tableName) {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    count={rows.length}
+                    count={book.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
