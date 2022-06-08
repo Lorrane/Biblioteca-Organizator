@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,45 +10,14 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BASE_URL } from '../../utils/requests';
 
-
-// function createData(isbn, title, subtitle, author, publishing, genrer, yearPubli) {
-//     return {
-//         isbn,
-//         title,
-//         subtitle,
-//         author,
-//         publishing,
-//         genrer,
-//         yearPubli,
-//     };
-// }
-
-// const rows = [
-// createData(123, 'Harry Potter', 'e a Pedra Filosofal', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
-// createData(321, 'Harry Potter', 'e a Câmara Secreta', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
-// createData(258, 'Harry Potter', 'e o Prisioneiro de Askaban', 'ROWLING, J.K.', 'Rocco', 'Fantasia, Aventura, Ação'),
-// createData(852, 'Senhor dos Aneis', 'A Sociedade do Anel', 'TOLKIEN, J.R.R.', 'Allen & Unwin', 'Fantasia, Aventura, Ação'),
-// createData(456, 'Senhor dos Aneis', 'As Duas Torres', 'TOLKIEN, J.R.R.', 'Allen & Unwin', 'Fantasia, Aventura, Ação'),
-// createData(654, 'O Hobbit', '', 'TOLKIEN, J.R.R.', 'Allen & Unwin', 'Fantasia, Aventura, Ação'),
-// createData(789, 'A sutil Arte de ligar o F*da-se', 'Uma estratégia Inusitada de uma vida melhor', 'MANSON, Mark', 'Intrinsica', 'Auto-Ajuda'),
-// createData(987, 'O Cortiço', '', 'AZEVEDO, Aluísio', 'FTD Educação', 'Didático'),
-// createData(951, 'Memórias Postumas de Brás Cubas', '', 'ASSIS, Machado de', 'Principis', 'Ficção'),
-// createData(753, 'Dom Casmurro', '', 'ASSIS, Machado de', 'Principis', 'Fantasia, Aventura, Ação'),
-// ];
 
 
 function descendingComparator(a, b, orderBy) {
@@ -129,7 +97,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-    const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
+    const { order, orderBy, onRequestSort } =
         props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
@@ -138,17 +106,6 @@ function EnhancedTableHead(props) {
     return (
         <TableHead>
             <TableRow>
-                {/* <TableCell padding="checkbox">
-                     <Checkbox
-                        color="primary"
-                        indeterminate={numSelected > 0 && numSelected < rowCount}
-                        checked={rowCount > 0 && numSelected === rowCount}
-                        onChange={onSelectAllClick}
-                        inputProps={{
-                            'aria-label': 'Selecione todos os Livros',
-                        }}
-                    /> 
-                </TableCell>*/}
                 {headCells.map((headCell) => (
                     <TableCell
                         key={headCell.id}
@@ -176,77 +133,23 @@ function EnhancedTableHead(props) {
 }
 
 EnhancedTableHead.propTypes = {
-    // numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
-    // onSelectAllClick: PropTypes.func.isRequired,
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
     orderBy: PropTypes.string.isRequired,
     rowCount: PropTypes.number.isRequired,
 };
 
-// const EnhancedTableToolbar = (props) => {
-//     const { numSelected, tableName } = props;
 
-//     return (
-//         <Toolbar
-//             sx={{
-//                 pl: { sm: 2 },
-//                 pr: { xs: 1, sm: 1 },
-//                 ...(numSelected > 0 && {
-//                     bgcolor: (theme) =>
-//                         alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-//                 }),
-//             }}
-//         >
-//             {numSelected > 0 ? (
-//                 <Typography
-//                     sx={{ flex: '1 1 100%' }}
-//                     color="inherit"
-//                     variant="subtitle1"
-//                     component="div"
-//                 >
-//                     {numSelected} selecionado(s)
-//                 </Typography>
-//             ) : (
-//                 <Typography
-//                     sx={{ flex: '1 1 100%' }}
-//                     variant="h6"
-//                     id="tableTitle"
-//                     component="div"
-//                 >
-//                     {`${tableName.tableName}`}
-//                 </Typography>
-//             )}
-
-//             {numSelected > 0 ? (
-//                 <Tooltip title="Delete">
-//                     <IconButton>
-//                         <DeleteIcon />
-//                     </IconButton>
-//                 </Tooltip>
-//             ) : (
-//                 <Tooltip title="Filter list">
-//                     <IconButton>
-//                         <FilterListIcon />
-//                     </IconButton>
-//                 </Tooltip>
-//             )}
-//         </Toolbar>
-//     );
-// };
-
-// EnhancedTableToolbar.propTypes = {
-//     numSelected: PropTypes.number.isRequired,
-// };
 
 export default function EnhancedTable(tableName) {
+    const navigate = useNavigate();
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('title');
-    // const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(true);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const [book, setBook] = useState([{
+    const [genrers, setGenrers] = React.useState();
+    const [books, setBooks] = useState([{
         isbn: 0,
         title: "",
         subtitle: "",
@@ -254,93 +157,12 @@ export default function EnhancedTable(tableName) {
         publishing: "",
         yearPubli: 0
     }]);
-    // const [book_genrer, setBook_genrer] = useState({
-    //     id: 0,
-    //     book_id: 0,
-    //     genrer_id: 0
-    // });
-    // const [genrers, setGenrers] = useState([]);
-
-    // function handleGenrers(param) {
-    //     let genrersString = "";
-
-    //     param.map(item => (
-    //         genrersString = genrersString.concat(', ')
-    //     ));
-
-    //     return genrersString;
-    // }
-
-    useEffect(() => {
-        axios.get(`${BASE_URL}/book`)
-            .then(response => {
-                setBook(response.data);
-                // data.map(book => (
-                //     rows.push(
-                //         createData(
-                //             book.isbn,
-                //             book.title,
-                //             book.subtitle,
-                //             book.author,
-                //             book.publishing,
-                //             "Ação, Aventura",
-                //             // handleGenrers(genrers),
-                //             book.yearPubli
-                //         )
-                //     )
-                // axios.get(`${BASE_URL}/book_genrers/${book.isbn}`)
-                //     .then(book_genrers => {
-                //         book_genrers.content.map(book_genrer => (
-                //             axios.get(`${BASE_URL}/genrer/${book_genrer.genrer_id}`)
-                //                 .then(genrerslist => {
-                //                     genrerslist.map(genrer => (
-                //                         genrers.push(genrer.name)
-                //                     ));
-                //                 })
-                //         ))
-
-                //     })
-                // ))
-            });
-    }, []);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
     };
-
-    // const handleSelectAllClick = (event) => {
-    //     if (event.target.checked) {
-    //         const newSelecteds = rows.map((n) => n.isbn);
-    //         setSelected(newSelecteds);
-    //         return;
-    //     }
-    //     setSelected([]);
-    // };
-
-    const navigate = useNavigate();
-
-    // const handleClick = (event, isbn) => {
-    // const selectedIndex = selected.indexOf(isbn);
-    // let newSelected = [];
-
-    // if (selectedIndex === -1) {
-    //     newSelected = newSelected.concat(selected, isbn);
-    // } else if (selectedIndex === 0) {
-    //     newSelected = newSelected.concat(selected.slice(1));
-    // } else if (selectedIndex === selected.length - 1) {
-    //     newSelected = newSelected.concat(selected.slice(0, -1));
-    // } else if (selectedIndex > 0) {
-    //     newSelected = newSelected.concat(
-    //         selected.slice(0, selectedIndex),
-    //         selected.slice(selectedIndex + 1),
-    //     );
-    // }
-    // navigate(`/livros/cadastrar/${isbn}`)
-
-    // setSelected(newSelected);
-    // };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -355,16 +177,43 @@ export default function EnhancedTable(tableName) {
         setDense(event.target.checked);
     };
 
-    // const isSelected = (isbn) => selected.indexOf(isbn) !== -1;
-
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - book.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - books.length) : 0;
+
+    // const getGenrers = (book) => {
+    //     axios.get(`${BASE_URL}/book_genrers/${book.isbn}`)
+    //         .then(book_genrersResponse => {
+    //             book_genrersResponse.data.map((bookGenrer, index) => (
+    //                 axios.get(`${BASE_URL}/genrer/${bookGenrer.genrerId}`)
+    //                     .then(genrerResponse => {
+    //                         setGenrers([...genrers, genrerResponse.data.genrer]); 
+    //                     })
+    //             ))
+    //         });
+    //     let stringGenrers = '';
+    //     return genrers.map((genrer, index) => {
+    //         if (stringGenrers === '') {
+    //             stringGenrers = `${genrer}`;
+    //         } else {
+
+    //             stringGenrers = +`, ${genrer}`;
+    //         }
+    //         return stringGenrers
+    //     })
+    // }
+
+    useEffect(() => {
+        axios.get(`${BASE_URL}/book`)
+            .then(bookResponse => {
+                setBooks(bookResponse.data);
+            });
+    }, []);
+
 
     return (
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-                {/* <EnhancedTableToolbar numSelected={selected.length} tableName={tableName} /> */}
                 <TableContainer>
                     <Table
                         sx={{ minWidth: 750 }}
@@ -372,41 +221,26 @@ export default function EnhancedTable(tableName) {
                         size={dense ? 'medium' : 'small'}
                     >
                         <EnhancedTableHead
-                            // numSelected={selected.length}
                             order={order}
                             orderBy={orderBy}
-                            // onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
-                            rowCount={book.length}
+                            rowCount={books.length}
                         />
                         <TableBody>
                             {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-                            {stableSort(book, getComparator(order, orderBy))
+                            {stableSort(books, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
-                                    // const isItemSelected = isSelected(row.isbn);
                                     const labelId = `enhanced-table-checkbox-${index}`;
                                     return (
                                         <TableRow
                                             hover
-                                            // onClick={(event) => handleClick(event, row.isbn)}
                                             onClick={() => (navigate(`/livro/${row.isbn}`))}
                                             role="checkbox"
-                                            // aria-checked={isItemSelected}
                                             tabIndex={-1}
                                             key={row.isbn}
-                                        // selected={isItemSelected}
                                         >
-                                            {/*<TableCell padding="checkbox">
-                                                 <Checkbox
-                                                    color="primary"
-                                                    checked={isItemSelected}
-                                                    inputProps={{
-                                                        'aria-labelledby': labelId,
-                                                    }}
-                                                /> 
-                                            </TableCell>*/}
                                             <TableCell
                                                 component="th"
                                                 id={labelId}
@@ -419,7 +253,8 @@ export default function EnhancedTable(tableName) {
                                             <TableCell align="left">{row.subtitle}</TableCell>
                                             <TableCell align="center">{row.author}</TableCell>
                                             <TableCell align="center">{row.publishing}</TableCell>
-                                            <TableCell align="center">{row.genrer}</TableCell>
+                                            <TableCell align="center">verificar, resposta, da, API</TableCell>
+                                            {/* <TableCell align="center">{getGenrers(row)}</TableCell> */}
                                             <TableCell align="center" padding='checkbox'>{row.yearPubli}</TableCell>
                                         </TableRow>
                                     );
@@ -439,7 +274,7 @@ export default function EnhancedTable(tableName) {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    count={book.length}
+                    count={books.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}

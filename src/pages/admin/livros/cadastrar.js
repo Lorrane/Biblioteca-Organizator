@@ -2,7 +2,6 @@ import * as React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import MenuAdmin from '../../../components/menu-admin';
 
-
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 
@@ -20,6 +19,7 @@ const mdTheme = createTheme();
 export default function CadastroLivro() {
 
     const [selectGenrer, setSelectGenrer] = React.useState([]);
+
     const navigate = useNavigate();
 
     const ITEM_HEIGHT = 48;
@@ -45,6 +45,7 @@ export default function CadastroLivro() {
         'Auto-Ajuda',
         'Educação',
     ];
+
 
     const handleSelectChange = (event) => {
         const {
