@@ -17,8 +17,15 @@ import { visuallyHidden } from '@mui/utils';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BASE_URL } from '../../utils/requests';
+import { styled } from '@mui/material';
 
-
+const StyledTableRow = styled(TableRow)({
+    cursor: 'pointer',
+    '&:nth-of-type(odd)': {
+        backgroundColor: '#ededed',
+        color: 'white',
+    }
+});
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -234,7 +241,7 @@ export default function EnhancedTable(tableName) {
                                 .map((row, index) => {
                                     const labelId = `enhanced-table-checkbox-${index}`;
                                     return (
-                                        <TableRow
+                                        <StyledTableRow
                                             hover
                                             onClick={() => (navigate(`/livro/${row.isbn}`))}
                                             role="checkbox"
@@ -256,7 +263,7 @@ export default function EnhancedTable(tableName) {
                                             <TableCell align="center">verificar, resposta, da, API</TableCell>
                                             {/* <TableCell align="center">{getGenrers(row)}</TableCell> */}
                                             <TableCell align="center" padding='checkbox'>{row.yearPubli}</TableCell>
-                                        </TableRow>
+                                        </StyledTableRow>
                                     );
                                 })}
                             {emptyRows > 0 && (
