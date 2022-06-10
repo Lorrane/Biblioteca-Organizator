@@ -17,7 +17,8 @@ import { visuallyHidden } from '@mui/utils';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BASE_URL } from '../../utils/requests';
-import { styled } from '@mui/material';
+import { Divider, FormControl, IconButton, InputBase, InputLabel, MenuItem, Select, styled } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 const StyledTableRow = styled(TableRow)({
     cursor: 'pointer',
@@ -65,6 +66,12 @@ const headCells = [
         label: 'ISBN',
     },
     {
+        id: 'author',
+        numeric: false,
+        disablePadding: true,
+        label: 'Autor(es)',
+    },
+    {
         id: 'title',
         numeric: false,
         disablePadding: true,
@@ -75,12 +82,6 @@ const headCells = [
         numeric: false,
         disablePadding: true,
         label: 'SubTítulo',
-    },
-    {
-        id: 'author',
-        numeric: false,
-        disablePadding: true,
-        label: 'Autor(es)',
     },
     {
         id: 'publishing',
@@ -156,6 +157,8 @@ export default function EnhancedTable(tableName) {
     const [dense, setDense] = React.useState(true);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [genrers, setGenrers] = React.useState();
+    const [selected, setSelected] = React.useState();
+    const [search, setSearch] = React.useState('');
     const [books, setBooks] = useState([{
         isbn: 0,
         title: "",
@@ -164,6 +167,7 @@ export default function EnhancedTable(tableName) {
         publishing: "",
         yearPubli: 0
     }]);
+
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -218,8 +222,77 @@ export default function EnhancedTable(tableName) {
     }, []);
 
 
+    const filteredTable = books.filter(
+        (book) => {
+            switch (selected) {
+                case 'ISBN':
+                    return (
+                        book.isbn === search
+                    );
+                case 'Autor':
+                    return book.author.startsWith(search);
+                case 'Titulo':
+                    return book.title.startsWith(search);
+                case 'Classificação':
+                    return book.subtitle.startsWith(search);
+                default:
+                    return book.author.startsWith(search);
+            }
+        });
+
+    // books.filter((book) => {//book.author.startsWith(search))
+    //     let v = [];
+    //     if (selected === 'ISBN') {
+    //         v = books.filter((book) => book.isbn.startsWith(search));
+    //     } else {
+    //         v = books.filter((book) => book.author.startsWith(search));
+    //     }
+    //     return v;
+    // })
+
+
+
+
+
     return (
         <Box sx={{ width: '100%' }}>
+            <Paper
+                component="form"
+                sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '60%', m: '0 auto 4px auto' }}
+            >
+                <IconButton sx={{ p: '5px', width: '17%' }}>
+
+                    <Select defaultValue={'Autor'} sx={{ width: '100%' }} onChange={(event) => { setSelected(event.target.value) }} >
+                        <MenuItem value='ISBN' >
+                            ISBN
+                        </MenuItem>
+                        <MenuItem value='Titulo'  >
+                            Titulo
+                        </MenuItem>
+                        <MenuItem value='Autor'>
+                            Autor
+                        </MenuItem>
+                        <MenuItem value='Classificação'>
+                            Classificação
+                        </MenuItem>
+                    </Select>
+                </IconButton>
+                <InputBase
+                    sx={{ ml: 1, flex: 1 }}
+                    placeholder={`Digite o ${selected} que deseja buscar`}
+                    inputProps={{ 'aria-label': 'busca na lista' }}
+                    value={search}
+                    onChange={(event) => { setSearch(event.target.value) }}
+                />
+                <IconButton type="button" sx={{ p: '10px' }} aria-label="search" >
+                    <SearchIcon />
+                </IconButton>
+                {/* <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions">
+                    <DirectionsIcon />
+                </IconButton> */}
+            </Paper>
+
             <Paper sx={{ width: '100%', mb: 2 }}>
                 <TableContainer>
                     <Table
@@ -236,7 +309,7 @@ export default function EnhancedTable(tableName) {
                         <TableBody>
                             {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-                            {stableSort(books, getComparator(order, orderBy))
+                            {stableSort(filteredTable, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
                                     const labelId = `enhanced-table-checkbox-${index}`;
@@ -256,9 +329,9 @@ export default function EnhancedTable(tableName) {
                                             >
                                                 {row.isbn}
                                             </TableCell>
+                                            <TableCell align="left">{row.author}</TableCell>
                                             <TableCell align="left">{row.title}</TableCell>
                                             <TableCell align="left">{row.subtitle}</TableCell>
-                                            <TableCell align="center">{row.author}</TableCell>
                                             <TableCell align="center">{row.publishing}</TableCell>
                                             <TableCell align="center">verificar, resposta, da, API</TableCell>
                                             {/* <TableCell align="center">{getGenrers(row)}</TableCell> */}
