@@ -1,4 +1,4 @@
-import { Cancel, Save } from '@mui/icons-material'
+import { Cancel, Delete, Save } from '@mui/icons-material'
 import { Button, Checkbox, Container, FormControl, InputLabel, ListItemText, MenuItem, Paper, Select, TextField } from '@mui/material'
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
@@ -97,10 +97,41 @@ function FormBook({ book, buttonName }) {
                     ))}
                 </Select>
             </FormControl>
+            <FormControl fullWidth sx={{ p: 2 }}>
+                {book
+                    ?
+                    <TextField id="year" label="Ano de Publicação" variant="standard" value={book.year} InputLabelProps={{ shrink: true }} />
+                    :
+                    <TextField id="year" label="Ano de Publicação" variant="standard" />
+                }
+            </FormControl>
+            <FormControl fullWidth sx={{ p: 2 }}>
+                {book
+                    ?
+                    <TextField id="classification" label="Classificação" variant="standard" value={book.year} InputLabelProps={{ shrink: true }} />
+                    :
+                    <TextField id="classification" label="Classificação" variant="standard" />
+                }
+            </FormControl>
             <Container align='right'>
+                {book
+                    ?
+                    <Button
+                        startIcon={<Delete />}
+                        color='error'
+                        variant="contained"
+                        sx={{ m: 2 }}
+                        size='large'
+                        onClick={() => navigate('/livros')}
+                    >
+                        Excluir
+                    </Button>
+                    :
+                    <span></span>
+                }
                 <Button
                     startIcon={<Cancel />}
-                    color='error'
+                    // color='error'
                     variant="contained"
                     sx={{ m: 2 }}
                     size='large'
@@ -110,6 +141,7 @@ function FormBook({ book, buttonName }) {
                 </Button>
                 <Button
                     startIcon={<Save />}
+                    color="success"
                     variant="contained"
                     sx={{ m: 2 }}
                     size='large'
